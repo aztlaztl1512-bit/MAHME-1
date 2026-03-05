@@ -221,85 +221,58 @@
         });
     }
 </script>
-    <style id="ultra-dark-sync">
-    /* تعريف الألوان الليلية لكل عناصر الاختبار */
+    <style id="final-eye-fix">
+    /* 1. إعدادات الوضع الليلي (عند التفعيل) */
     .dark-sync-active {
         background-color: #121212 !important;
-        color: #e2e8f0 !important;
+        color: #ffffff !important;
     }
-
-    /* إصلاح حاوية الأسئلة */
     .dark-sync-active .question-container, 
-    .dark-sync-active #quiz-container,
-    .dark-sync-active .card {
+    .dark-sync-active .option-label, 
+    .dark-sync-active .card,
+    .dark-sync-active #quiz-container {
         background-color: #1e1e1e !important;
-        border-color: #333333 !important;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+        border-color: #333 !important;
     }
-
-    /* إصلاح نصوص الأسئلة والخيارات لضمان عدم اختفائها */
-    .dark-sync-active .question-text, 
+    /* فرض اللون الأبيض للنصوص في الوضع الليلي */
+    .dark-sync-active .option-label, 
+    .dark-sync-active .question-text,
+    .dark-sync-active .choice-text,
     .dark-sync-active h2, 
-    .dark-sync-active h3,
-    .dark-sync-active .option-label {
+    .dark-sync-active span {
         color: #ffffff !important;
     }
 
-    /* أزرار الخيارات */
-    .dark-sync-active .option-btn, 
-    .dark-sync-active .choice-box {
-        background-color: #2d3748 !important;
-        color: #ffffff !important;
-        border: 1px solid #4a5568 !important;
+    /* 2. إصلاح الوضع العادي (لضمان عدم اختفاء النصوص) */
+    body:not(.dark-sync-active) .option-label,
+    body:not(.dark-sync-active) .question-text,
+    body:not(.dark-sync-active) .choice-text {
+        color: #000000 !important; /* فرض اللون الأسود للنصوص في الوضع العادي */
     }
-
-    .dark-sync-active .option-btn:hover {
-        background-color: #4a5568 !important;
-    }
-
-    /* إصلاح التغذية الراجعة (Hint) وحفظ الحقوق */
-    .dark-sync-active .hint-box, 
-    .dark-sync-active .feedback {
-        background-color: #2d2d2d !important;
-        color: #90cdf4 !important;
-        border-right: 5px solid #2b6cb0 !important;
-    }
-
-    /* عداد الوقت والدرجة النهائية */
-    .dark-sync-active #timer, 
-    .dark-sync-active .score-display {
-        color: #f6ad55 !important;
-    }
-
-    /* تبسيط النتائج النهائية كما طلبت */
-    .dark-sync-active .final-results {
-        background: #1e1e1e !important;
-        color: #ffffff !important;
-    }
+    
+    /* تنسيق إضافي لزر الوقت والنتائج المبسطة */
+    .dark-sync-active #timer { color: #ff6b6b !important; }
+    .dark-sync-active .score-display { color: #4fd1c5 !important; }
 </style>
 
 <script>
-    function syncAllColors() {
+    function applyUltraSync() {
         const platformTheme = localStorage.getItem('qudrat-theme');
-        const testBody = document.body;
-        
         if (platformTheme === 'dark') {
-            testBody.classList.add('dark-sync-active');
+            document.body.classList.add('dark-sync-active');
         } else {
-            testBody.classList.remove('dark-sync-active');
+            document.body.classList.remove('dark-sync-active');
         }
     }
 
-    // التنفيذ الفوري عند تحميل الاختبار
-    window.addEventListener('DOMContentLoaded', syncAllColors);
-    
-    // مراقبة أي تغيير يحدث في تبويب المنصة الرئيسية
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'qudrat-theme') syncAllColors();
-    });
+    // التنفيذ الفوري والمستمر
+    window.addEventListener('DOMContentLoaded', applyUltraSync);
+    setInterval(applyUltraSync, 1000);
 
-    // فحص احتياطي كل ثانية لضمان الدقة
-    setInterval(syncAllColors, 1000);
+    // معالجة خاصة لضمان استجابة النصوص فوراً
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'qudrat-theme') applyUltraSync();
+    });
 </script>
 </body>
 </html>
