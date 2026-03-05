@@ -221,5 +221,40 @@
         });
     }
 </script>
+    <style id="dynamic-dark-style">
+    /* هذه الألوان ستطبق فقط إذا كان الطالب مفعلاً للوضع الليلي في المنصة */
+    .auto-dark-mode {
+        background-color: #121212 !important;
+        color: #ffffff !important;
+    }
+    .auto-dark-mode .question-box, 
+    .auto-dark-mode .option-label,
+    .auto-dark-mode .card { 
+        background-color: #1e1e1e !important;
+        color: #ffffff !important;
+        border-color: #333 !important;
+    }
+    .auto-dark-mode .option-label:hover { background-color: #2d3748 !important; }
+</style>
+
+<script>
+    function syncTheme() {
+        // قراءة حالة الوضع من ذاكرة المتصفح التي خزنها كود المنصة
+        const currentTheme = localStorage.getItem('qudrat-theme');
+        
+        if (currentTheme === 'dark') {
+            document.body.classList.add('auto-dark-mode');
+        } else {
+            document.body.classList.remove('auto-dark-mode');
+        }
+    }
+
+    // التنفيذ فور فتح الاختبار
+    window.addEventListener('DOMContentLoaded', syncTheme);
+    
+    // فحص كل ثانية (في حال غير الطالب الوضع وهو فاتح الاختبار في تبويب آخر)
+    setInterval(syncTheme, 1000);
+</script>
 </body>
+
 </html>
