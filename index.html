@@ -2,259 +2,627 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حقيبة القدرات (1) - أ/ عبدالعزيز الفيفي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>منصة التميز اللفظي - أ. عبدالعزيز الفيفي</title>
     <style>
-        :root { 
-            --primary: #2c3e50;   /* كحلي ملكي */
-            --secondary: #34495e; 
-            --accent: #d4af37;    /* ذهبي */
-            --bg: #f4f7f6; 
-            --white: #ffffff; 
-            --correct: #27ae60;
-            --wrong: #e74c3c;
+        :root {
+            --primary: #2b6cb0;
+            --accent-red: #e53e3e;
+            --border-gray: #cbd5e0;
+            --bg-soft: #f0f4f8;
+            --gold: #d4af37;
+            --gold-soft: #fcf4d8; 
+            --gold-border: #e9d18b; 
+            --locked-gray: #a0aec0;
+            --grad-primary: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; line-height: 1.7; color: #333; }
-        .quiz-card { background: var(--white); width: 100%; max-width: 950px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); border-top: 15px solid var(--primary); padding: 30px; position: relative; }
-        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 25px; padding-bottom: 15px; }
-        
-        .timer-container { position: sticky; top: 10px; background: var(--wrong); color: white; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; display: inline-block; margin-bottom: 20px; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .timer-pulse { animation: pulse-animation 0.6s infinite alternate; transform: scale(1.1); }
-        @keyframes pulse-animation { from { transform: scale(1.1); } to { transform: scale(1.25); } }
 
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
-        .option { padding: 18px; border: 2px solid #f0f0f0; border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: bold; background: #fafafa; font-size: 1.1rem; text-align: center; }
-        .option:hover { border-color: var(--primary); background: #fdf7ff; transform: translateY(-2px); }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0; min-height: 100vh;
+            background-color: var(--bg-soft);
+            background-attachment: fixed;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(15px);
+            width: 100%; min-height: 100vh;
+            text-align: center; padding: 20px; box-sizing: border-box;
+        }
+
+        .school-name-text { color: var(--accent-red); font-weight: 800; font-size: 1.4rem; display: block; margin-bottom: 5px; }
+        h1 { color: #2d3748; font-size: clamp(20px, 5vw, 28px); margin: 10px 0; font-weight: 800; }
+        .teacher-name { color: var(--primary); font-size: 1.1rem; margin-bottom: 25px; font-weight: bold; }
+
+        .home-intro {
+            background: white; padding: 25px; border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-bottom: 25px;
+            text-align: right; line-height: 1.8; border-top: 8px solid var(--primary);
+        }
+        .instruction-tag {
+            display: inline-block; padding: 8px 18px; border-radius: 12px;
+            font-weight: bold; font-size: 0.9rem; margin: 5px;
+        }
+
+        .stats-bar {
+            display: flex; justify-content: space-around; flex-wrap: wrap;
+            background: white; padding: 15px; border-radius: 20px;
+            margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--primary); align-items: center;
+        }
+        .stat-item { padding: 5px; min-width: 100px; text-align: center; cursor: pointer; }
+        .stat-number { display: block; font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .stat-label { font-size: 0.8rem; color: #718096; font-weight: bold; }
+
+        /* أيقونة تحدي اليوم الحيوية (تقرب وتبعد) */
+        .challenge-circle {
+            width: 75px; height: 75px; border-radius: 50%;
+            background: var(--gold-soft);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: 0.4s; cursor: pointer; border: 2px solid var(--gold-border);
+            animation: lively-zoom 2s infinite ease-in-out;
+        }
+        .challenge-circle:hover { background: #fff; animation-play-state: paused; }
+        .challenge-circle span { color: #8a6d3b; font-size: 0.75rem; font-weight: 800; }
+        .challenge-circle i { font-size: 1.6rem; margin-bottom: 2px; font-style: normal; }
+
+        @keyframes lively-zoom {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+            50% { transform: scale(1.15); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        }
+
+        .top-siren {
+            display: inline-block; font-size: 1.5rem; margin-bottom: 5px;
+            animation: siren-spin 1.5s infinite linear, siren-flash 0.5s infinite alternate;
+        }
+        @keyframes siren-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes siren-flash { 0% { color: #ff0000; } 100% { color: #0000ff; } }
+
+        .home-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px; padding: 10px;
+        }
+
+        .home-card {
+            background: white; min-height: 130px; padding: 15px; border-radius: 20px;
+            border: 2px solid transparent; cursor: pointer; transition: 0.4s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;
+            animation: gentle-glow 3s infinite ease-in-out;
+        }
+        @keyframes gentle-glow {
+            0% { box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+            50% { box-shadow: 0 4px 20px rgba(43, 108, 176, 0.2); border-color: rgba(43, 108, 176, 0.3); }
+            100% { box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        }
+        .home-card.show { opacity: 1; transform: translateY(0); }
+        .home-card:hover { transform: translateY(-8px); animation: none; box-shadow: 0 10px 25px rgba(0,0,0,0.15); border-width: 3px; }
+        .home-card span { font-weight: 800; font-size: 1.15rem; line-height: 1.4; }
+
+        .card-analog { border-color: #4299e1; color: #2b6cb0; }
+        .card-odd { border-color: #48bb78; color: #2f855a; }
+        .card-complete { border-color: #ed8936; color: #c05621; }
+        .card-error { border-color: #9f7aea; color: #6b46c1; }
+        .card-reading { border-color: #38b2ac; color: #2c7a7b; }
+        .card-shamel { border-color: #667eea; color: #4c51bf; }
+
+        .guide-pulse {
+            animation: urgent-gold-pulse 1.5s infinite !important;
+            border: 3px solid var(--gold) !important;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            background: #fffdf5 !important;
+        }
+        @keyframes urgent-gold-pulse {
+            0% { transform: scale(1); box-shadow: 0 0 5px rgba(212, 175, 55, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212, 175, 55, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 0 5px rgba(212, 175, 55, 0.4); }
+        }
+
+        .nav-controls { display: none; justify-content: space-between; margin-bottom: 20px; align-items: center; }
+        .back-btn { background: #4a5568; color: white; padding: 10px 20px; border-radius: 10px; cursor: pointer; border: none; font-weight: bold; }
+
+        .model-list { display: none; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 20px; padding: 10px; }
+        .model-list.active { display: grid; }
+
+        .btn {
+            background: white; padding: 25px 10px; text-decoration: none; border-radius: 20px;
+            color: #2d3748; border: 1px solid var(--border-gray); display: flex;
+            flex-direction: column; align-items: center; gap: 10px; transition: 0.3s; font-weight: bold;
+        }
+        .btn:hover { border-color: var(--primary); background: #f8fbff; transform: translateY(-3px); }
+        .icon-circle { font-size: 24px; width: 50px; height: 50px; background: #edf2f7; border-radius: 15px; display: flex; align-items: center; justify-content: center; }
+
+        #searchBox { width: 100%; max-width: 500px; padding: 12px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 15px; text-align: center; display: none; margin: 0 auto 20px auto; }
         
-        .correct-opt { background: var(--correct) !important; color: white; border-color: var(--correct) !important; }
-        .wrong-opt { background: var(--wrong) !important; color: white; border-color: var(--wrong) !important; }
-        
-        .feedback-box { margin-top: 20px; padding: 20px; border-radius: 15px; background: #fffde7; border-right: 8px solid var(--accent); display: none; font-size: 1.05rem; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); }
-        .btn { background: var(--secondary); color: white; padding: 16px 45px; border: none; border-radius: 12px; cursor: pointer; font-size: 1.2rem; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: var(--primary); transform: scale(1.02); }
-        
-        .result-table { width: 100%; border-collapse: collapse; margin-top: 25px; background: white; }
-        .result-table th { background: var(--primary); color: white; padding: 12px; }
-        .result-table td { border: 1px solid #ddd; padding: 12px; text-align: center; font-size: 0.9rem; }
-        
-        .hidden { display: none; }
-        .locked { text-align: center; color: red; margin-top: 100px; padding: 50px; border: 5px solid red; background: white; border-radius: 20px; }
+        .intro-box {
+            background-color: #ffffff; border-radius: 15px; padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-right: 5px solid #2b6cb0;
+            direction: rtl; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8; max-width: 800px; margin: 20px auto;
+        }
+        .intro-header { display: flex; align-items: center; margin-bottom: 15px; }
+        .intro-header h3 { color: #333; margin: 0; font-size: 1.4rem; font-weight: bold; }
+        .intro-header .icon { font-size: 1.5rem; margin-left: 10px; }
+        .intro-content p { color: #555; font-size: 1.1rem; margin: 0; text-align: justify; }
+
+        .ticker-wrapper {
+            direction: rtl; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px; margin: 20px auto; display: flex;
+            align-items: center; gap: 15px; background: #ffffff;
+            padding: 12px 20px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid #f0f0f0; overflow: hidden;
+        }
+        .static-icon {
+            width: 60px; height: 60px; background: #3498db; color: white;
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 30px; flex-shrink: 0;
+            cursor: pointer; transition: transform 0.3s ease;
+        }
+        .news-label {
+            background: #e67e22; color: white; padding: 10px 22px;
+            border-radius: 10px; font-size: 19px; font-weight: 900;
+            display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+        }
+        .ticker-content { flex-grow: 1; overflow: hidden; white-space: nowrap; display: flex; align-items: center; }
+        .ticker-text {
+            display: inline-block; padding-right: 100%;
+            animation: ticker 40s linear infinite; /* تم الضبط على 40 ثانية بالضبط */
+            color: #000000; font-size: 21px; font-weight: 700;
+        }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(100%, 0, 0); } }
+
+        .footer-section { margin-top: 50px; border-top: 1px solid #ddd; padding-top: 25px; }
+        .telegram-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #0088cc; color: white; padding: 12px 25px;
+            border-radius: 15px; text-decoration: none; font-weight: bold;
+            margin-bottom: 15px; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,136,204,0.3);
+        }
+        .telegram-btn:hover { background: #0077b5; transform: scale(1.05); }
+        .footer-line { color: #718096; font-size: 0.95rem; font-weight: bold; }
+        .ai-btn { background: var(--grad-primary); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
-<body id="main-body">
+<body id="main-body" onload="animateCards()">
 
-<div class="quiz-card" id="quiz-container">
-    <div class="header">
-        <h3 id="author-name">✨ أ / عبد العزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓</h3>
-        <h2 id="quiz-title">اختبار التناظر اللفظي - النموذج (1) المطور</h2>
+<div class="container" id="content-container">
+    <span class="school-name-text">🏰 ثانوية الأمير عبدالمجيد</span>
+    <h1>✨ منصة التميز الرقمية (القسم اللفظي) ✨</h1>
+    <div class="teacher-name" id="t-name">إعداد الأستاذ: عبدالعزيز الفيفي 👨‍🏫</div>
+
+    <div id="home-page">
+        <div class="home-intro">
+            <div class="intro-box">
+                <div class="intro-header"><span class="icon">✨</span><h3>نبذة عن المنصة والقدرات اللفظية</h3></div>
+                <div class="intro-content">
+                    <p>أهلاً بك في <strong>منصة التميز الرقمية</strong>، بوابتك الموثوقة نحو التفوق في <strong>القسم اللفظي</strong>. تم تطوير هذا المحتوى ليكون رفيقك الذكي في رحلة الاستعداد لاختبار القدرات، حيث نجمع لك أحدث النماذج التفاعلية والشروحات المبسطة التي تحاكي الواقع وتكسر حاجز الرهبة، لتصل إلى الدرجة التي تطمح إليها بكل ثقة.</p>
+                </div>
+            </div>
+            <div style="margin-top:15px; text-align:center;">
+                <span class="instruction-tag" style="background:#e3f2fd; color:#1e88e5;">💡 ابدأ بدليل القسم أولاً</span>
+                <span class="instruction-tag" style="background:#e8f5e9; color:#43a047;">🎯 تدرب على النماذج يومياً</span>
+                <span class="instruction-tag" style="background:#fff3e0; color:#fb8c00;">🚀 المساعد الذكي رفيقك عند الحيرة</span>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-number">120+</span><span class="stat-label">نموذج محدث</span></div>
+            <div class="stat-item" onclick="openDailyChallenge()">
+                <div class="challenge-circle"><i>🏆</i><span>تحدي اليوم</span></div>
+            </div>
+            <div class="stat-item" onclick="openTab('ai-helper', 'مساعدك للتأكد من السؤال')">
+                <span class="top-siren">🤖</span>
+                <span class="stat-number">24/7</span>
+                <span class="stat-label">المساعد الذكي</span>
+            </div>
+        </div>
+
+        <div class="home-grid">
+            <div class="home-card card-analog" onclick="openTab('analog', 'التناظر اللفظي')"><span>🔗<br> التناظر اللفظي</span></div>
+            <div class="home-card card-odd" onclick="openTab('odd', 'المفردة والارتباط')"><span>🔍<br> المفردة والارتباط</span></div>
+            <div class="home-card card-complete" onclick="openTab('complete', 'إكمال الجمل')"><span>📝<br> إكمال الجمل</span></div>
+            <div class="home-card card-error" onclick="openTab('error', 'الخطأ في السياق')"><span>❌<br> الخطأ في السياق</span></div>
+            <div class="home-card card-reading" onclick="openTab('reading', 'استيعاب المقروء')"><span>📖<br> استيعاب المقروء</span></div>
+            <div class="home-card card-shamel" onclick="openTab('comprehensive', 'شامل اللفظي')"><span>📜<br> شامل اللفظي</span></div>
+        </div>
     </div>
 
-    <div id="start-page" style="text-align: center;">
-        <p style="font-size: 1.2rem; margin-bottom: 20px;">⏱️ 45 ثانية لكل سؤال | 🔀 خلط عشوائي كامل | 💡 تحليل منطقي موسع</p>
-        <input type="text" id="studentNameInput" placeholder="أدخل اسمك الثلاثي لبدء التحدي..." style="width: 75%; padding: 15px; border-radius: 10px; border: 2px solid #ccc; text-align: center; font-size: 1.1rem; margin-bottom: 20px;">
-        <br><button class="btn" onclick="startQuizAction()">ابدأ الاختبار 🚀</button>
+    <div class="nav-controls" id="nav-btns">
+        <button class="back-btn" onclick="goBack()">↩️ رجوع للرئيسية</button>
+        <span id="section-title" style="font-weight: bold; color: var(--primary);"></span>
     </div>
 
-    <div id="quiz-page" class="hidden">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <div id="progress-text" style="font-weight: bold; color: var(--primary);"></div>
-            <div id="timer-box" class="timer-container">⏳ المتبقي: <span id="timer-val">45</span> ثانية</div>
-        </div>
-        <div id="question-display" style="font-size: 1.8rem; text-align: center; margin: 25px 0; font-weight: 800; color: var(--primary); background: #f9f9f9; padding: 25px; border-radius: 20px; border: 1px solid #eee;"></div>
-        <div id="options-container" class="options-grid"></div>
-        <div id="feedback-display" class="feedback-box"></div>
-        <div style="text-align: center; margin-top: 30px;">
-            <button id="next-btn" class="btn hidden" onclick="loadNextQuestion()">السؤال التالي ⮕</button>
+    <input type="text" id="searchBox" placeholder="🔍 ابحث في هذا القسم..." onkeyup="searchModels()">
+
+    <div id="analog" class="model-list">
+        <a href="https://aztlaztl1512-bit.github.io/TALEMAT/" class="btn guide-pulse"><div class="icon-circle">💡</div><span> دليل قسم </span></a>
+       <a href="https://aztlaztl1512-bit.github.io/MAHME-1/" class="btn"><div class="icon-circle">📖</div><span>نموذج التناظر 1</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-2/" class="btn"><div class="icon-circle">🤯</div><span>نموذج التناظر 2</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-3/" class="btn"><div class="icon-circle">📐</div><span>نموذج التناظر 3</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-4/" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر 4</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-5/" class="btn"><div class="icon-circle">📖</div><span>نموذج التناظر 5</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-6/" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر 6</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-7/" class="btn"><div class="icon-circle">🧪</div><span>نموذج التناظر 7</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-8/" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر 8</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-9/" class="btn"><div class="icon-circle">📝</div><span>نموذج التناظر 9</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-10/" class="btn"><div class="icon-circle">🤯</div><span>نموذج التناظر 10</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-11/" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر 11</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-12/" class="btn"><div class="icon-circle">🧪</div><span>نموذج التناظر 12</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-13/" class="btn"><div class="icon-circle">🏆</div><span>نموذج التناظر 13</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-14/" class="btn"><div class="icon-circle">🏆</div><span>نموذج التناظر 14</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-15/" class="btn"><div class="icon-circle">🔍</div><span>نموذج التناظر 15</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-16/" class="btn"><div class="icon-circle">🧪</div><span>نموذج التناظر 16</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-17/" class="btn"><div class="icon-circle">💡</div><span>نموذج التناظر 17</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-18/" class="btn"><div class="icon-circle">📖</div><span>نموذج التناظر 18</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-19/" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر 19</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-20/" class="btn"><div class="icon-circle">📝</div><span>نموذج التناظر 20</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-21/" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر 21</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-22/" class="btn"><div class="icon-circle">📐</div><span>نموذج التناظر 22</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-23/" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر 23</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-24/" class="btn"><div class="icon-circle">🏆</div><span>نموذج التناظر 24</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-25/" class="btn"><div class="icon-circle">🏆</div><span>نموذج التناظر 25</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-26/" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر 26</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-27/" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر 27</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-28/" class="btn"><div class="icon-circle">🧪</div><span>نموذج التناظر 28</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-29/" class="btn"><div class="icon-circle">🏆</div><span>نموذج التناظر 29</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-30/" class="btn"><div class="icon-circle">🔍</div><span>نموذج التناظر 30</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-31/" class="btn"><div class="icon-circle">📐</div><span>نموذج التناظر 31</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-32/" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر 32</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-33/" class="btn"><div class="icon-circle">📖</div><span>نموذج التناظر 33</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-34/" class="btn"><div class="icon-circle">🏆</div><span>نموذج التناظر 34</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-35/" class="btn"><div class="icon-circle">📝</div><span>نموذج التناظر 35</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-36/" class="btn"><div class="icon-circle">📐</div><span>نموذج التناظر 36</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-37/" class="btn"><div class="icon-circle">🔗</div><span>نموذج التناظر 37</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-38/" class="btn"><div class="icon-circle">📐</div><span>نموذج التناظر 38</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-39/" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر 39</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-40/" class="btn"><div class="icon-circle">🔗</div><span>نموذج التناظر 40</span></a>
+        <a href="https://forms.cloud.microsoft/r/SZptwEewNa?origin=lprLink" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر فورمز</span></a>
+        <a href="https://forms.office.com/r/s04A7b96Fs?origin=lprLink" class="btn"><div class="icon-circle">📝</div><span>نموذج التناظر فورمز</span></a>
+        <a href="https://forms.cloud.microsoft/r/SZptwEewNa?origin=lprLink" class="btn"><div class="icon-circle">💻</div><span>نموذج التناظر فورمز</span></a>
+        <a href="https://forms.cloud.microsoft/r/B2HdjC9Kfc?origin=lprLink" class="btn"><div class="icon-circle">🌎</div><span>نموذج التناظر فورمز</span></a>
+    </div>
+
+    <div id="odd" class="model-list">
+        <a href="https://aztlaztl1512-bit.github.io/TALEMAT2/" class="btn guide-pulse"><div class="icon-circle">💡</div><span>دليل قسم </span></a>
+         <a href="https://aztlaztl1512-bit.github.io/school21/" class="btn"><div class="icon-circle">🏆</div><span>نموذج المفردة 1</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school15/" class="btn"><div class="icon-circle">🔍</div><span>نموذج المفردة 2</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school16//" class="btn"><div class="icon-circle">🧪</div><span>نموذج المفردة 3</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school12" class="btn"><div class="icon-circle">💡</div><span>نموذج المفردة 4</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school22/" class="btn"><div class="icon-circle">📖</div><span>نموذج المفردة 5</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school23/" class="btn"><div class="icon-circle">🌎</div><span>نموذج المفردة 6</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school24/" class="btn"><div class="icon-circle">📝</div><span>نموذج المفردة 7</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school25/" class="btn"><div class="icon-circle">💻</div><span>نموذج المفردة 8</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school26/" class="btn"><div class="icon-circle">📐</div><span>نموذج المفردة 9</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school27/" class="btn"><div class="icon-circle">📝</div><span>نموذج المفردة 10</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school28/" class="btn"><div class="icon-circle">🏆</div><span>نموذج المفردة 11</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school29/" class="btn"><div class="icon-circle">💡</div><span>نموذج المفردة 12</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school34/" class="btn"><div class="icon-circle">🔍</div><span>نموذج المفردة 13</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school35/" class="btn"><div class="icon-circle">📖</div><span>نموذج المفردة 14</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME1/" class="btn"><div class="icon-circle">🔗</div><span>نموذج المفردة 15</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/school36/" class="btn"><div class="icon-circle">🏆</div><span>نموذج المفردة 16</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-40/" class="btn"><div class="icon-circle">💻</div><span>نموذج المفردة 17</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-41/" class="btn"><div class="icon-circle">📝</div><span>نموذج المفردة 18</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-42/" class="btn"><div class="icon-circle">🌎</div><span>نموذج المفردة 19</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/MAHME-43/" class="btn"><div class="icon-circle">📖</div><span>نموذج المفردة 20</span></a>
+    </div>
+
+    <div id="complete" class="model-list">
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-1/" class="btn guide-pulse"><div class="icon-circle">📝</div><span>دليل القسم </span></a>
+          <a href="https://aztlaztl1512-bit.github.io/EKMAL-2//" class="btn"><div class="icon-circle">📖</div><span>نموذج إكمال الجمل 1</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-3/" class="btn"><div class="icon-circle">🧪</div><span>نموذج إكمال الجمل 2</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-4/" class="btn"><div class="icon-circle">💡</div><span>نموذج إكمال الجمل 3</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-5/" class="btn"><div class="icon-circle">💻</div><span>نموذج إكمال الجمل 4</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-6/" class="btn"><div class="icon-circle">🏆</div><span>نموذج إكمال الجمل 5</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-7/" class="btn"><div class="icon-circle">📐</div><span>نموذج إكمال الجمل 6</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/EKMAL-8/" class="btn"><div class="icon-circle">🌎</div><span>نموذج إكمال الجمل 7</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-9/" class="btn"><div class="icon-circle">💡</div><span>نموذج إكمال الجمل 8</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-10/" class="btn"><div class="icon-circle">🏆</div><span>نموذج إكمال الجمل 9</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-11/" class="btn"><div class="icon-circle">🧪</div><span>نموذج إكمال الجمل 10</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-12/" class="btn"><div class="icon-circle">🔗</div><span>نموذج إكمال الجمل 11</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-13/" class="btn"><div class="icon-circle">📐</div><span>نموذج إكمال الجمل 12</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-14/" class="btn"><div class="icon-circle">📖</div><span>نموذج إكمال الجمل 13</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-15/" class="btn"><div class="icon-circle">🌎</div><span>نموذج إكمال الجمل 14</span></a>
+<a href="https://aztlaztl1512-bit.github.io/EKMAL-16/" class="btn"><div class="icon-circle">🏆</div><span>نموذج إكمال الجمل 15</span></a>
+    </div>
+
+    <div id="error" class="model-list">
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-/" class="btn guide-pulse"><div class="icon-circle">💡</div><span>دليل القسم </span></a>
+         <a href="https://aztlaztl1512-bit.github.io/SEAQ-1" class="btn"><div class="icon-circle">🌎</div><span>نموذج الخطأ السياقي 1</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-2" class="btn"><div class="icon-circle">🏆</div><span>نموذج الخطأ السياقي 2</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-3" class="btn"><div class="icon-circle">📐</div><span>نموذج الخطأ السياقي 3</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-4" class="btn"><div class="icon-circle">🔗</div><span>نموذج الخطأ السياقي 4</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-5" class="btn"><div class="icon-circle">💡</div><span>نموذج الخطأ السياقي 5</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-6" class="btn"><div class="icon-circle">📝</div><span>نموذج الخطأ السياقي 6</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-7" class="btn"><div class="icon-circle">🧪</div><span>نموذج الخطأ السياقي 7</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-8" class="btn"><div class="icon-circle">🏆</div><span>نموذج الخطأ السياقي 8</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SEAQ-9" class="btn"><div class="icon-circle">🌎</div><span>نموذج الخطأ السياقي 9</span></a>
+ <a href="https://aztlaztl1512-bit.github.io/SEAQ-10" class="btn"><div class="icon-circle">🧪</div><span>نموذج الخطأ السياقي 10</span></a>
+ <a href="https://aztlaztl1512-bit.github.io/SEAQ-11" class="btn"><div class="icon-circle">💡</div><span>نموذج الخطأ السياقي 11</span></a>
+ <a href="https://aztlaztl1512-bit.github.io/SEAQ-12" class="btn"><div class="icon-circle">💻</div><span>نموذج الخطأ السياقي 12</span></a>
+ <a href="https://aztlaztl1512-bit.github.io/SEAQ-13" class="btn"><div class="icon-circle">🔗</div><span>نموذج الخطأ السياقي 13</span></a>
+ <a href="https://aztlaztl1512-bit.github.io/SEAQ-14" class="btn"><div class="icon-circle">🌎</div><span>نموذج الخطأ السياقي 14</span></a>
+ <a href="https://aztlaztl1512-bit.github.io/SEAQ-15" class="btn"><div class="icon-circle">📝</div><span>نموذج الخطأ السياقي 15</span></a>
+    </div>
+
+    <div id="reading" class="model-list">
+        <a href="https://aztlaztl1512-bit.github.io/ESTEAB-/" class="btn guide-pulse"><div class="icon-circle">💡</div><span>دليل القسم </span></a>
+         <a href="https://aztlaztl1512-bit.github.io/ESTEAB-1" class="btn"><div class="icon-circle">💻</div><span>نموذج استيعاب المقروء 1</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-2" class="btn"><div class="icon-circle">🌎</div><span>نموذج استيعاب المقروء 2</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-3" class="btn"><div class="icon-circle">🧪</div><span>نموذج استيعاب المقروء 3</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-4" class="btn"><div class="icon-circle">🏆</div><span>نموذج استيعاب المقروء 4</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-5" class="btn"><div class="icon-circle">📐</div><span>نموذج استيعاب المقروء 5</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-6" class="btn"><div class="icon-circle">📝</div><span>نموذج استيعاب المقروء 6</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-7" class="btn"><div class="icon-circle">🔗</div><span>نموذج استيعاب المقروء 7</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-8" class="btn"><div class="icon-circle">💡</div><span>نموذج استيعاب المقروء 8</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-9" class="btn"><div class="icon-circle">📖</div><span>نموذج استيعاب المقروء 9</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-10" class="btn"><div class="icon-circle">💻</div><span>نموذج استيعاب المقروء 10</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-11" class="btn"><div class="icon-circle">📖</div><span>نموذج استيعاب المقروء 11</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-12" class="btn"><div class="icon-circle">🔗</div><span>نموذج استيعاب المقروء 12</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-13" class="btn"><div class="icon-circle">🏆</div><span>نموذج استيعاب المقروء 13</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-14" class="btn"><div class="icon-circle">🌎</div><span>نموذج استيعاب المقروء 14</span></a>
+<a href="https://aztlaztl1512-bit.github.io/ESTEAB-15" class="btn"><div class="icon-circle">🧪</div><span>نموذج استيعاب المقروء 15</span></a>
+    </div>
+
+    <div id="comprehensive" class="model-list">
+        <a href="https://aztlaztl1512-bit.github.io/SAML-/" class="btn guide-pulse"><div class="icon-circle">📜</div><span>دليل القسم الشامل</span></a>
+        <a href="https://aztlaztl1512-bit.github.io/SAML-1" class="btn"><div class="icon-circle">💻</div><span>نموذج شامل لفظي 1</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-2" class="btn"><div class="icon-circle">🏆</div><span>نموذج شامل لفظي 2</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-3" class="btn"><div class="icon-circle">🧪</div><span>نموذج شامل لفظي 3</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-4" class="btn"><div class="icon-circle">🔗</div><span>نموذج شامل لفظي 4</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-5" class="btn"><div class="icon-circle">📖</div><span>نموذج شامل لفظي 5</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-6" class="btn"><div class="icon-circle">💡</div><span>نموذج شامل لفظي 6</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-7" class="btn"><div class="icon-circle">📐</div><span>نموذج شامل لفظي 7</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-8" class="btn"><div class="icon-circle">🧪</div><span>نموذج شامل لفظي 8</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-9" class="btn"><div class="icon-circle">🌎</div><span>نموذج شامل لفظي 9</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-10" class="btn"><div class="icon-circle">🏆</div><span>نموذج شامل لفظي 10</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-11" class="btn"><div class="icon-circle">🔗</div><span>نموذج شامل لفظي 11</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-12" class="btn"><div class="icon-circle">🧪</div><span>نموذج شامل لفظي 12</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-13" class="btn"><div class="icon-circle">📐</div><span>نموذج شامل لفظي 13</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-14" class="btn"><div class="icon-circle">💻</div><span>نموذج شامل لفظي 14</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-15" class="btn"><div class="icon-circle">💡</div><span>نموذج شامل لفظي 15</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-16" class="btn"><div class="icon-circle">🌎</div><span>نموذج شامل لفظي 16</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-17" class="btn"><div class="icon-circle">📖</div><span>نموذج شامل لفظي 17</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-18" class="btn"><div class="icon-circle">🏆</div><span>نموذج شامل لفظي 18</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-19" class="btn"><div class="icon-circle">📐</div><span>نموذج شامل لفظي 19</span></a>
+<a href="https://aztlaztl1512-bit.github.io/SAML-20" class="btn"><div class="icon-circle">🔗</div><span>نموذج شامل لفظي 20</span></a>
+    </div>
+    <div id="ai-helper" class="model-list" style="grid-template-columns: 1fr;">
+        <div style="background: white; padding: 30px; border-radius: 25px; border: 2px dashed var(--primary);">
+            <h2 style="color: var(--primary);">🤖 مساعدك للتأكد من السؤال</h2>
+            <input type="text" id="ai-query" placeholder="ضع نص السؤال هنا..." style="width: 100%; max-width: 500px; padding: 12px; border-radius: 10px; border: 1px solid #ddd; margin-bottom: 10px;">
+            <br>
+            <button class="ai-btn" onclick="askAI()">تحقق بواسطة النص ✨</button>
+            <div style="margin-top:20px;">
+                <button class="ai-btn" style="background:#4a5568;" onclick="launchAIPage()">📸 تفضل برفع صورة سؤالك للمساعدة</button>
+            </div>
         </div>
     </div>
 
-    <div id="result-page" class="hidden">
-        <div style="text-align: center; padding: 30px; background: #e8eaf6; border-radius: 20px; border: 3px solid var(--primary); margin-bottom: 30px;">
-            <h2 id="score-display" style="color: var(--primary); margin:0; font-size: 2.5rem;"></h2>
-            <p id="student-greeting" style="font-size: 1.2rem; margin-top:10px;"></p>
+    <div class="ticker-wrapper">
+        <div class="static-icon" id="wisdom-icon">💡</div>
+        <div class="news-label">🔔 تنبيهات التميز</div>
+        <div class="ticker-content">
+            <div class="ticker-text" id="ticker-text">
+                🔔 تحديث 2026: تم رفع نماذج جديدة كلياً • راجع حالة تسجيلك في قياس • التميز ليس ذكاءً بل تدريب مستمر • 
+            </div>
         </div>
-        <h3 style="color: var(--secondary); border-right: 5px solid var(--accent); padding-right: 15px;">📊 تقرير المراجعة والتحليل المنطقي:</h3>
-        <table class="result-table">
-            <thead>
-                <tr>
-                    <th>السؤال</th>
-                    <th>إجابتك</th>
-                    <th>الصحيحة</th>
-                    <th>التفسير والتحليل المنطقي</th>
-                </tr>
-            </thead>
-            <tbody id="summary-body"></tbody>
-        </table>
-        <div style="text-align: center; margin-top: 40px;">
-            <p style="font-weight: bold; color: var(--primary);">✨ أ / عبد العزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓</p>
-            <button class="btn" onclick="location.reload()">إعادة الاختبار 🔀</button>
-        </div>
+    </div>
+
+    <div class="footer-section">
+        <a href="https://t.me/+q1vxFtx7NOkxZjY0" class="telegram-btn" target="_blank"><span>🔹 انضم لقناتنا على التلجرام</span></a>
+        <div class="footer-line" id="f-line">✨ أ / عبد العزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓</div>
     </div>
 </div>
 
 <script>
-    // حماية الحقوق الفكرية
-    (function protect() {
-        const teacher = "عبد العزيز الفيفي";
-        const school = "ثانوية الأمير عبدالمجيد";
-        setInterval(() => {
-            const auth = document.getElementById('author-name');
-            if (!auth || !auth.innerText.includes(teacher) || !auth.innerText.includes(school)) {
-                document.getElementById('main-body').innerHTML = '<div class="locked"><h1>⚠️ خرق حماية الملكية</h1><p>هذا العمل محمي برمجياً للأستاذ عبدالعزيز الفيفي. لا يسمح بتعديل الحقوق.</p></div>';
-            }
-        }, 3000);
-    })();
-
-    const masterPool = [
-        { q: "رئة : تنفس", opts: ["قلب : ضخ", "أنف : شم", "عين : رؤية", "معدة : هضم"], c: "قلب : ضخ", r: "العلاقة (وظيفة أساسية): الرئة وظيفتها التنفس، والقلب وظيفته الضخ." },
-        { q: "غمد : سيف", opts: ["قلم : حبر", "كتاب : ورق", "عرين : أسد", "بيت : سور"], c: "عرين : أسد", r: "العلاقة (احتواء مكاني): الغمد هو بيت السيف، والعرين هو بيت الأسد." },
-        { q: "نحل : عسل", opts: ["بقر : حليب", "نمل : قرية", "أسد : غابة", "تمر : نخل"], c: "بقر : حليب", r: "العلاقة (مصدر): النحل مصدر العسل، والبقر مصدر الحليب." },
-        { q: "يوم : أسبوع", opts: ["ساعة : دقيقة", "شهر : سنة", "متر : سنتيمتر", "غرام : كيلوغرام"], c: "شهر : سنة", r: "العلاقة (جزء من كل): اليوم جزء من الأسبوع، والشهر جزء من السنة." },
-        { q: "عجين : خبز", opts: ["صوف : رداء", "ماء : عصير", "خشب : شجر", "طحين : قمح"], c: "صوف : رداء", r: "العلاقة (مرحلية): العجين يصبح خبزاً، والصوف يصبح رداءً." },
-        { q: "منشار : خشب", opts: ["مقص : قماش", "قلم : كتابة", "سكين : مطبخ", "فأس : مزارع"], c: "مقص : قماش", r: "العلاقة (أداة ومفعول): المنشار يقطع الخشب، والمقص يقطع القماش." },
-        { q: "قائد : جيش", opts: ["ربان : سفينة", "مدير : مدرسة", "مدرب : فريق", "إمام : مصلين"], c: "ربان : سفينة", r: "العلاقة (قيادة): القائد يقود الجيش، والربان يقود السفينة." },
-        { q: "ثوب : قماش", opts: ["خاتم : ذهب", "باب : خشب", "منزل : حجر", "كتاب : ورق"], c: "خاتم : ذهب", r: "العلاقة (أصل الشيء): الثوب مصنوع من القماش، والخاتم مصنوع من الذهب." },
-        { q: "جرح : ألم", opts: ["اجتهاد : نجاح", "نوم : راحة", "غضب : ندم", "سرعة : حادث"], c: "اجتهاد : نجاح", r: "العلاقة (سبب ونتيجة): الجرح يسبب الألم، والاجتهاد يسبب النجاح." },
-        { q: "أبيض : سلام", opts: ["أحمر : خطر", "أخضر : عبور", "أسود : حزن", "أصفر : غيرة"], c: "أحمر : خطر", r: "العلاقة (رمزية): الأبيض رمز السلام، والأحمر رمز الخطر." },
-        { q: "نخلة : تمر", opts: ["بقرة : حليب", "دجاجة : بيض", "شجرة : تفاح", "سحابة : مطر"], c: "شجرة : تفاح", r: "العلاقة (منتِج ومنتَج نباتي): النخلة تنتج التمر، والشجرة تنتج التفاح." },
-        { q: "مئذنة : مسجد", opts: ["شرفة : منزل", "محراب : مسجد", "قبة : مسجد", "سور : حديقة"], c: "شرفة : منزل", r: "العلاقة (جزء بارز من كل): المئذنة جزء من المسجد، والشرفة جزء من المنزل." },
-        { q: "أسد : زئير", opts: ["ضفدع : نقيق", "حمام : هديل", "ذئب : عواء", "خيل : صهيل"], c: "خيل : صهيل", r: "العلاقة (كائن وصوته): صوت الأسد هو الزئير، وصوت الخيل هو الصهيل." },
-        { q: "كلمة : جملة", opts: ["حرف : كلمة", "بيت : قصيدة", "صفحة : كتاب", "فصل : مدرسة"], c: "حرف : كلمة", r: "العلاقة (جزء من كل): الكلمة جزء من الجملة، والحرف جزء من الكلمة." },
-        { q: "طير : ريش", opts: ["جمل : وبر", "خروف : صوف", "ماعز : شعر", "سمك : قشور"], c: "خروف : صوف", r: "العلاقة (غلاف الجسم): الطير يغطيه الريش، والخروف يغطيه الصوف." },
-        { q: "ساعة : عقرب", opts: ["بوصلة : إبرة", "ميزان : كفة", "كتاب : صفحة", "سيارة : مقود"], c: "بوصلة : إبرة", r: "العلاقة (جزء وظيفي): العقرب جزء من الساعة، والإبرة جزء من البوصلة." },
-        { q: "شارع : رصيف", opts: ["كتاب : هامش", "حديقة : سور", "بحر : شاطئ", "منزل : فناء"], c: "بحر : شاطئ", r: "العلاقة (إحاطة/حدود): الرصيف يحد الشارع، والشاطئ يحد البحر." },
-        { q: "يقين : شك", opts: ["إيمان : كفر", "نور : ظلام", "علم : جهل", "حياة : موت"], c: "إيمان : كفر", r: "العلاقة (تضاد): اليقين عكس الشك، والإيمان عكس الكفر." },
-        { q: "نجم : سماء", opts: ["لؤلؤ : بحر", "أشجار : غابة", "رمال : صحراء", "مدن : دولة"], c: "لؤلؤ : بحر", r: "العلاقة (مكانية): النجم مكانه السماء، واللؤلؤ مكانه البحر." },
-        { q: "خسوف : قمر", opts: ["كسوف : شمس", "غيوم : مطر", "نور : مصباح", "ظلام : ليل"], c: "كسوف : شمس", r: "العلاقة (ظاهرة فلكية): الخسوف يقع للقمر، والكسوف يقع للشمس. ✨ أ / عبد العزيز الفيفي 🎓" }
+    // روابط التحدي السبعة
+    const dailyLinks = [
+        "https://aztlaztl1512-bit.github.io/Zzz/", 
+        "https://aztlaztl1512-bit.github.io/Zzz/", 
+        "https://aztlaztl1512-bit.github.io/Zzz/", 
+        "https://aztlaztl1512-bit.github.io/Zzz/", 
+        "https://aztlaztl1512-bit.github.io/Zzz/", 
+        "https://aztlaztl1512-bit.github.io/Zzz/", 
+        "https://aztlaztl1512-bit.github.io/Zzz/"
     ];
 
-    let currentIdx = 0, score = 0, timerInterval, timeLeft = 45, logs = [], studentName = "", activeQs = [];
-
-    function shuffle(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
+    function openDailyChallenge() {
+        const now = new Date();
+        const start = new Date(now.getFullYear(), 0, 0);
+        const diff = now - start;
+        const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const index = dayOfYear % dailyLinks.length;
+        window.open(dailyLinks[index], "_blank");
     }
 
-    function startQuizAction() {
-        studentName = document.getElementById('studentNameInput').value;
-        if (!studentName.trim() || studentName.length < 3) { alert("يرجى إدخال اسمك الثلاثي"); return; }
-        activeQs = shuffle([...masterPool]); // خلط الأسئلة عند البداية
-        document.getElementById('start-page').classList.add('hidden');
-        document.getElementById('quiz-page').classList.remove('hidden');
-        loadQuestion();
-    }
-
-    function startTimer() {
-        clearInterval(timerInterval);
-        timeLeft = 45;
-        const tBox = document.getElementById('timer-box');
-        const tVal = document.getElementById('timer-val');
-        tBox.classList.remove('timer-pulse');
-        tVal.innerText = timeLeft;
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            tVal.innerText = timeLeft;
-            if (timeLeft <= 5) tBox.classList.add('timer-pulse');
-            if (timeLeft <= 0) { clearInterval(timerInterval); handleSelection(null); }
-        }, 1000);
-    }
-
-    function loadQuestion() {
-        if (currentIdx >= activeQs.length) { endQuiz(); return; }
-        const q = activeQs[currentIdx];
-        document.getElementById('progress-text').innerText = `سؤال ${currentIdx + 1} من ${activeQs.length}`;
-        document.getElementById('question-display').innerText = q.q;
-        document.getElementById('feedback-display').style.display = 'none';
-        document.getElementById('next-btn').classList.add('hidden');
-        
-        const box = document.getElementById('options-container');
-        box.innerHTML = '';
-        shuffle([...q.opts]).forEach(opt => { // خلط الخيارات
-            const div = document.createElement('div');
-            div.className = 'option';
-            div.innerText = opt;
-            div.onclick = () => handleSelection(opt, div);
-            box.appendChild(div);
-        });
-        startTimer();
-    }
-
-    function handleSelection(sel, el) {
-        clearInterval(timerInterval);
-        document.getElementById('timer-box').classList.remove('timer-pulse');
-        const q = activeQs[currentIdx];
-        const opts = document.querySelectorAll('.option');
-        opts.forEach(o => o.onclick = null);
-
-        let isCorrect = (sel === q.c);
-        if (isCorrect) {
-            if(el) el.classList.add('correct-opt');
-            score++;
-        } else {
-            if(el) el.classList.add('wrong-opt');
-            opts.forEach(o => { if(o.innerText === q.c) o.classList.add('correct-opt'); });
-        }
-
-        const feedback = document.getElementById('feedback-display');
-        feedback.style.display = 'block';
-        feedback.innerHTML = `<strong>💡 التحليل المنطقي:</strong> ${q.r}`;
-        document.getElementById('next-btn').classList.remove('hidden');
-        logs.push({ q: q.q, user: sel || "انتهى الوقت ⏰", correct: q.c, r: q.r });
-    }
-
-    function loadNextQuestion() {
-        currentIdx++;
-        loadQuestion();
-    }
-
-    function endQuiz() {
-        document.getElementById('quiz-page').classList.add('hidden');
-        document.getElementById('result-page').classList.remove('hidden');
-        document.getElementById('score-display').innerText = `نتيجتك: ${score} من ${activeQs.length}`;
-        document.getElementById('student-greeting').innerText = `انتهى الاختبار يا بطل: ${studentName}`;
-        const tbody = document.getElementById('summary-body');
-        logs.forEach(log => {
-            tbody.innerHTML += `<tr><td>${log.q}</td><td style="color:${log.user === log.correct ? 'green':'red'}">${log.user}</td><td style="color:green; font-weight:bold">${log.correct}</td><td style="text-align:right">${log.r}</td></tr>`;
+    let navigationHistory = [];
+    function animateCards() {
+        document.querySelectorAll('.home-card').forEach((card, index) => {
+            setTimeout(() => { card.classList.add('show'); }, index * 100);
         });
     }
+
+    // برمجية الحماية لضمان الحقوق
+    (function protect() {
+        const sig = "✨ أ / عبد العزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓";
+        setInterval(() => {
+            const footer = document.getElementById('f-line');
+            const teacher = document.getElementById('t-name');
+            if (!footer || !footer.innerText.includes(sig) || !teacher || !teacher.innerText.includes("عبدالعزيز الفيفي")) {
+                document.body.innerHTML = '<div style="text-align:center; margin-top:100px; direction:rtl;"><h1 style="color:red; border:5px solid red; padding:20px; display:inline-block; border-radius:15px;">⚠️ تنبيه الحماية: تم تعطيل المنصة لانتهاك حقوق الملكية</h1></div>';
+            }
+        }, 2000);
+    })();
+
+    function openTab(tabId, btnText) {
+        document.getElementById('home-page').style.display = 'none';
+        document.querySelectorAll('.model-list').forEach(l => l.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById('nav-btns').style.display = 'flex';
+        document.getElementById('section-title').innerText = btnText;
+        document.getElementById('searchBox').style.display = (tabId === 'ai-helper' || tabId === 'comprehensive') ? 'none' : 'block';
+        navigationHistory.push(tabId);
+    }
+
+    function goBack() {
+        if (navigationHistory.length > 0) {
+            navigationHistory.pop();
+            if (navigationHistory.length === 0) {
+                document.getElementById('home-page').style.display = 'block';
+                document.querySelectorAll('.model-list').forEach(l => l.classList.remove('active'));
+                document.getElementById('nav-btns').style.display = 'none';
+                document.getElementById('searchBox').style.display = 'none';
+                animateCards();
+            } else {
+                let prev = navigationHistory[navigationHistory.length - 1];
+                openTab(prev, document.getElementById('section-title').innerText);
+                navigationHistory.pop();
+            }
+        }
+    }
+
+    function launchAIPage() { window.open("https://www.google.com/search?q=تفضل+برفع+صورة+سؤالك+للمساعدة&sourceid=chrome&udm=50&aep=42", '_blank'); }
+    function askAI() {
+        const q = document.getElementById('ai-query').value;
+        if (!q) return alert("فضلاً ضع السؤال أولاً");
+        window.open(`https://www.google.com/search?q=شرح+سؤال+قدرات+لفظي:+${encodeURIComponent(q)}&sourceid=chrome&udm=50&aep=42`, '_blank');
+    }
+
+    function searchModels() {
+        let input = document.getElementById('searchBox').value.toLowerCase();
+        let activeList = document.querySelector('.model-list.active');
+        if(!activeList) return;
+        let items = activeList.getElementsByTagName('a');
+        for (let i = 0; i < items.length; i++) {
+            items[i].style.display = items[i].innerText.toLowerCase().includes(input) ? "flex" : "none";
+        }
+    }
+
+    document.getElementById('wisdom-icon').onclick = function() {
+        const phrases = ["التركيز هو مفتاح الحل.", "استبعد الإجابات الخاطئة أولاً.", "ثق بنفسك دائماً."];
+        alert("💡 زاد التميز: " + phrases[Math.floor(Math.random() * phrases.length)]);
+    };
 </script>
-    <style id="dynamic-dark-style">
-    /* هذه الألوان ستطبق فقط إذا كان الطالب مفعلاً للوضع الليلي في المنصة */
-    .auto-dark-mode {
-        background-color: #121212 !important;
-        color: #ffffff !important;
+<style>
+    /* زر التبديل العائم */
+    .dark-mode-floating-btn {
+        position: fixed; 
+        top: 15px; 
+        left: 15px; 
+        z-index: 10005;
+        background: #2b6cb0; 
+        color: white; 
+        border: 2px solid #ffffff;
+        width: 45px; 
+        height: 45px; 
+        border-radius: 50%;
+        cursor: pointer; 
+        box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        font-size: 22px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .auto-dark-mode .question-box, 
-    .auto-dark-mode .option-label,
-    .auto-dark-mode .card { 
+    .dark-mode-floating-btn:hover { transform: scale(1.1); }
+
+    /* الحالة النشطة للوضع الليلي - تغطية شاملة */
+    .dark-mode-active { 
+        background-color: #121212 !important; 
+    }
+    
+    .dark-mode-active .container { 
+        background: rgba(18, 18, 18, 0.98) !important; 
+    }
+
+    /* إصلاح المربع العلوي ونصوص النبذة */
+    .dark-mode-active .home-intro,
+    .dark-mode-active .intro-box {
         background-color: #1e1e1e !important;
-        color: #ffffff !important;
-        border-color: #333 !important;
+        border-color: #2b6cb0 !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6) !important;
     }
-    .auto-dark-mode .option-label:hover { background-color: #2d3748 !important; }
+    .dark-mode-active .intro-header h3,
+    .dark-mode-active h1,
+    .dark-mode-active .intro-content p,
+    .dark-mode-active .instruction-tag {
+        color: #ffffff !important;
+    }
+    .dark-mode-active .instruction-tag {
+        background: #2d3748 !important;
+        border: 1px solid #4a5568;
+    }
+
+    /* إصلاح شريط التنبيهات (Ticker) بالكامل */
+    .dark-mode-active .ticker-wrapper {
+        background-color: #1e1e1e !important;
+        border: 2px solid #333333 !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.4) !important;
+    }
+    .dark-mode-active .ticker-text {
+        color: #ffffff !important; /* تحويل النص الأسود إلى أبيض */
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+    .dark-mode-active .news-label {
+        background: #c05621 !important; /* لون برتقالي داكن يناسب الليل */
+    }
+    .dark-mode-active .static-icon {
+        background: #2c5282 !important;
+    }
+
+    /* إصلاح الكروت والإحصائيات */
+    .dark-mode-active .home-card, 
+    .dark-mode-active .btn,
+    .dark-mode-active .stats-bar {
+        background-color: #1e1e1e !important;
+        border-color: #333333 !important;
+        color: #ffffff !important;
+    }
+    .dark-mode-active .stat-number { color: #63b3ed !important; }
+    .dark-mode-active .stat-label { color: #a0aec0 !important; }
+    .dark-mode-active .home-card span, .dark-mode-active .btn span { color: #ffffff !important; }
+
+    /* إصلاح صندوق البحث والمساعد الذكي */
+    .dark-mode-active #searchBox,
+    .dark-mode-active #ai-query,
+    .dark-mode-active #ai-helper div {
+        background: #2d2d2d !important;
+        color: #ffffff !important;
+        border-color: #444444 !important;
+    }
 </style>
 
+<button class="dark-mode-floating-btn" onclick="applyDarkMode()" id="theme-switcher">🌙</button>
+
 <script>
-    function syncTheme() {
-        // قراءة حالة الوضع من ذاكرة المتصفح التي خزنها كود المنصة
-        const currentTheme = localStorage.getItem('qudrat-theme');
+    function applyDarkMode() {
+        const bodyElement = document.body;
+        const themeBtn = document.getElementById('theme-switcher');
         
-        if (currentTheme === 'dark') {
-            document.body.classList.add('auto-dark-mode');
+        // تبديل الفئة (Class)
+        bodyElement.classList.toggle('dark-mode-active');
+        
+        // تغيير شكل الزر وحفظ الحالة
+        if (bodyElement.classList.contains('dark-mode-active')) {
+            themeBtn.innerText = '☀️';
+            themeBtn.style.background = '#ed8936';
+            localStorage.setItem('qudrat-theme', 'dark');
         } else {
-            document.body.classList.remove('auto-dark-mode');
+            themeBtn.innerText = '🌙';
+            themeBtn.style.background = '#2b6cb0';
+            localStorage.setItem('qudrat-theme', 'light');
         }
     }
 
-    // التنفيذ فور فتح الاختبار
-    window.addEventListener('DOMContentLoaded', syncTheme);
-    
-    // فحص كل ثانية (في حال غير الطالب الوضع وهو فاتح الاختبار في تبويب آخر)
-    setInterval(syncTheme, 1000);
+    // كود إضافي: حفظ اختيار الطالب حتى لو أغلق الصفحة
+    window.addEventListener('DOMContentLoaded', (event) => {
+        if (localStorage.getItem('qudrat-theme') === 'dark') {
+            applyDarkMode();
+        }
+    });
 </script>
 </body>
-
 </html>
