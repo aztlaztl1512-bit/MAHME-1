@@ -221,44 +221,5 @@
         });
     }
 </script>
-    <style id="ultimate-sync-style">
-    /* الفلتر السحري الذي يقلب الألوان لضمان الرؤية 100% */
-    .platform-dark-mode {
-        filter: invert(1) hue-rotate(180deg) !important;
-        background-color: #000 !important; /* ضمان سواد الخلفية */
-    }
-
-    /* استثناء الصور والشعارات لكي لا تنعكس ألوانها وتصبح غريبة */
-    .platform-dark-mode img, 
-    .platform-dark-mode video,
-    .platform-dark-mode .teacher-name {
-        filter: invert(1) hue-rotate(180deg) !important;
-    }
-</style>
-
-<script>
-    function syncWithPlatform() {
-        // قراءة حالة الوضع من ذاكرة المتصفح التي خزنها كود المنصة
-        const themeStatus = localStorage.getItem('qudrat-theme');
-        const bodyTag = document.body;
-        
-        if (themeStatus === 'dark') {
-            bodyTag.classList.add('platform-dark-mode');
-        } else {
-            bodyTag.classList.remove('platform-dark-mode');
-        }
-    }
-
-    // فحص الحالة فور فتح الاختبار
-    window.addEventListener('DOMContentLoaded', syncWithPlatform);
-    
-    // مراقبة التغيير اللحظي في المنصة (إذا غير الطالب الوضع في تبويب آخر)
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'qudrat-theme') syncWithPlatform();
-    });
-
-    // فحص احتياطي كل ثانية لضمان الدقة المطلقة
-    setInterval(syncWithPlatform, 1000);
-</script>
 </body>
 </html>
