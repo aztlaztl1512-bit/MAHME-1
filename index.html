@@ -221,58 +221,44 @@
         });
     }
 </script>
-    <style id="final-eye-fix">
-    /* 1. إعدادات الوضع الليلي (عند التفعيل) */
-    .dark-sync-active {
-        background-color: #121212 !important;
-        color: #ffffff !important;
-    }
-    .dark-sync-active .question-container, 
-    .dark-sync-active .option-label, 
-    .dark-sync-active .card,
-    .dark-sync-active #quiz-container {
-        background-color: #1e1e1e !important;
-        border-color: #333 !important;
-    }
-    /* فرض اللون الأبيض للنصوص في الوضع الليلي */
-    .dark-sync-active .option-label, 
-    .dark-sync-active .question-text,
-    .dark-sync-active .choice-text,
-    .dark-sync-active h2, 
-    .dark-sync-active span {
-        color: #ffffff !important;
+    <style id="ultimate-sync-style">
+    /* الفلتر السحري الذي يقلب الألوان لضمان الرؤية 100% */
+    .platform-dark-mode {
+        filter: invert(1) hue-rotate(180deg) !important;
+        background-color: #000 !important; /* ضمان سواد الخلفية */
     }
 
-    /* 2. إصلاح الوضع العادي (لضمان عدم اختفاء النصوص) */
-    body:not(.dark-sync-active) .option-label,
-    body:not(.dark-sync-active) .question-text,
-    body:not(.dark-sync-active) .choice-text {
-        color: #000000 !important; /* فرض اللون الأسود للنصوص في الوضع العادي */
+    /* استثناء الصور والشعارات لكي لا تنعكس ألوانها وتصبح غريبة */
+    .platform-dark-mode img, 
+    .platform-dark-mode video,
+    .platform-dark-mode .teacher-name {
+        filter: invert(1) hue-rotate(180deg) !important;
     }
-    
-    /* تنسيق إضافي لزر الوقت والنتائج المبسطة */
-    .dark-sync-active #timer { color: #ff6b6b !important; }
-    .dark-sync-active .score-display { color: #4fd1c5 !important; }
 </style>
 
 <script>
-    function applyUltraSync() {
-        const platformTheme = localStorage.getItem('qudrat-theme');
-        if (platformTheme === 'dark') {
-            document.body.classList.add('dark-sync-active');
+    function syncWithPlatform() {
+        // قراءة حالة الوضع من ذاكرة المتصفح التي خزنها كود المنصة
+        const themeStatus = localStorage.getItem('qudrat-theme');
+        const bodyTag = document.body;
+        
+        if (themeStatus === 'dark') {
+            bodyTag.classList.add('platform-dark-mode');
         } else {
-            document.body.classList.remove('dark-sync-active');
+            bodyTag.classList.remove('platform-dark-mode');
         }
     }
 
-    // التنفيذ الفوري والمستمر
-    window.addEventListener('DOMContentLoaded', applyUltraSync);
-    setInterval(applyUltraSync, 1000);
-
-    // معالجة خاصة لضمان استجابة النصوص فوراً
+    // فحص الحالة فور فتح الاختبار
+    window.addEventListener('DOMContentLoaded', syncWithPlatform);
+    
+    // مراقبة التغيير اللحظي في المنصة (إذا غير الطالب الوضع في تبويب آخر)
     window.addEventListener('storage', (e) => {
-        if (e.key === 'qudrat-theme') applyUltraSync();
+        if (e.key === 'qudrat-theme') syncWithPlatform();
     });
+
+    // فحص احتياطي كل ثانية لضمان الدقة المطلقة
+    setInterval(syncWithPlatform, 1000);
 </script>
 </body>
 </html>
